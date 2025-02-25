@@ -1,5 +1,4 @@
 
-from turtle import pencolor
 import streamlit as st
 import random
 def add_bg_from_url():
