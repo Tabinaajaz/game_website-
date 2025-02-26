@@ -1,4 +1,5 @@
-
+# Run: streamlit run app.py
+# Description: A simple word puzzle game with levels in Streamlit
 import streamlit as st
 import random
 def add_bg_from_url():
@@ -6,12 +7,11 @@ def add_bg_from_url():
         f"""
         <style>
         .stApp {{
-            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrkkHTjij_DyfzUxbF0Lw3LfsyzUnh9MU8MQ&s");
+            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqganb68YfBHwxh-YQWE7YWd2uzoB8H7IBw&s");
             background-size: cover;
             background-position: center;
         }}
-               
-
+    
         .stButton>button {{
             color: #000000;  /* ⚫ Black Text */
             font-size: 18px;
@@ -26,7 +26,7 @@ add_bg_from_url()  # Call function to apply background
 
 # Session state to store game progress
 if "coins" not in st.session_state:
-    st.session_state.coins = 50  # Starting coins
+    st.session_state.coins = 70  # Starting coins
 if "level" not in st.session_state:
     st.session_state.level = 1  # Starting level
 
@@ -76,21 +76,28 @@ selected_word = st.radio("Choose the correct word:", options)
 if st.button("Submit"):
     if selected_word == word:
         st.session_state.coins += 10  # Correct answer: +10 coins
-        st.success("🎉 Correct! You earned +10 coins!")
         
-        # Level up if coins are enough
-        if st.session_state.coins >= 50 and st.session_state.level == 1:
-            st.session_state.level = 2
-            st.session_state.coins -= 20  # Leveling up costs 20 coins
-            st.info("🎯 Level Up! Welcome to Level 2!")
-        elif st.session_state.coins >= 80 and st.session_state.level == 2:
-            st.session_state.level = 3
-            st.session_state.coins -= 30  # Leveling up costs 30 coins
-            st.info("🚀 Level Up! Welcome to Level 3!")
+        st.success("🎉 Correct! You earned +10 coins!") 
+        st.write("Your winner")  # Added congratulatory text for correct answer
+        # Agar level 3 complete ho gaya to game over message show karein
+        if st.session_state.level == 3:
+            st.success("🎉 Congratulations! You have completed Level 3. Game Over!")
+
+        
+    # Level up if coins are enough
+    elif st.session_state.coins >= 50 and st.session_state.level == 1:
+        st.session_state.level = 2
+        st.session_state.coins -= 20  # Leveling up costs 20 coins
+        st.info("🎯 Level Up! Welcome to Level 2!")
+    elif st.session_state.coins >= 80 and st.session_state.level == 2:
+        st.session_state.level = 3
+        st.session_state.coins -= 30  # Leveling up costs 30 coins
+        st.info("🚀 Level Up! Welcome to Level 3!")
         
     else:
         st.session_state.coins -= 5  # Wrong answer: -5 coins
         st.error("❌ Wrong! You lost -5 coins!")
+
 
 # Reset Game
 if st.button("🔄 Reset Game"):
